@@ -8,10 +8,21 @@ def main():
     """
     st.header(body='Check Collar Dhaniel BIRL')
 
-    file_upload = st.sidebar.file_uploader(label="Upload CSV",
-                                           encoding=None,
-                                           type=["csv"])
 
+    survey = st.sidebar.file_uploader(label="Survey",
+                                      encoding=None,
+                                      type=["csv"])
+
+    assay = st.sidebar.file_uploader(label="Assay",
+                                     encoding=None,
+                                     type=["csv"])
+
+    collar = st.sidebar.file_uploader(label="Collar",
+                                      encoding=None,
+                                      type=["csv"])
+
+    if st.sidebar.button('Process'):
+        st.write('clicked')
 
 if __name__ == '__main__':
     main()
