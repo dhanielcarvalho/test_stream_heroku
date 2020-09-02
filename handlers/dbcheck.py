@@ -446,7 +446,7 @@ def validSurvey(bhid, at, brg, dip, filen, encoding="ISO-8859-1"):
     print('############################################################\n')
 
 
-def validCollar(bhid, xyzcol, filen, encoding="ISO-8859-1"):
+def validCollar(bhid, xcol, ycol, zcol, filen, encoding="ISO-8859-1"):
 
     print('\n############################################################')
 
@@ -454,14 +454,14 @@ def validCollar(bhid, xyzcol, filen, encoding="ISO-8859-1"):
     # Collar Import
     ncollar = pd.read_csv(filen, encoding=encoding)
     collar = pd.DataFrame()
-    cols = [bhid, xyzcol[0], xyzcol[1], xyzcol[2]]
+    cols = [bhid, xcol, ycol, zcol]
     collar = ncollar[cols]
 
     errordf = pd.DataFrame()
     error_l = np.array([])
 
-    cond_1 = collar[(collar[xyzcol[0]] == 0) | (
-        collar[xyzcol[1]] == 0) | (collar[xyzcol[2]] == 0)]
+    cond_1 = collar[(collar[xcol] == 0) | (
+        collar[ycol] == 0) | (collar[zcol] == 0)]
     write_warning(f'\nValidation 1 - There are {len(cond_1)}, '
                   'ZERO value on Collar coordinates')
     if (len(cond_1) > 0):
@@ -469,8 +469,8 @@ def validCollar(bhid, xyzcol, filen, encoding="ISO-8859-1"):
             collar.loc[cond_1.index.values], ignore_index=True)
         error_l = np.append(error_l, len(cond_1)*['Zero Coordinate'])
 
-    cond_2 = collar[(collar[xyzcol[0]] % 1 == 0) | (
-        collar[xyzcol[1]] % 1 == 0) | (collar[xyzcol[2]] % 1 == 0)]
+    cond_2 = collar[(collar[xcol] % 1 == 0) | (
+        collar[ycol] % 1 == 0) | (collar[zcol] % 1 == 0)]
     write_warning(f'\nValidation 2 - There are {len(cond_2)} '
                   'rounded collar coordinates')
     if (len(cond_2) > 0):
@@ -489,7 +489,7 @@ def validCollar(bhid, xyzcol, filen, encoding="ISO-8859-1"):
             collar.loc[cond_3.index.values], ignore_index=True)
         error_l = np.append(error_l, len(cond_3)*['Duplicate Hole ID'])
 
-    cols = [xyzcol[0], xyzcol[1], xyzcol[2]]
+    cols = [xcol, ycol, zcol]
     cond_4 = ncollar[cols]
     cond_4 = cond_4[(cond_4.duplicated())]
     write_warning(f'\nValidation 4 - There are {len(cond_4)} '
@@ -501,14 +501,14 @@ def validCollar(bhid, xyzcol, filen, encoding="ISO-8859-1"):
         error_l = np.append(error_l, len(cond_4)*['Duplicate Coordinates'])
 
     cond_5 = collar[
-        (collar[xyzcol[0]] > (
-            collar[xyzcol[1]].mean()-collar[xyzcol[1]].std())) &
-        (collar[xyzcol[0]] < (
-            collar[xyzcol[1]].mean()+collar[xyzcol[1]].std())) &
-        (collar[xyzcol[1]] > (
-            collar[xyzcol[0]].mean()-collar[xyzcol[0]].std())) &
-        (collar[xyzcol[1]] < (
-            collar[xyzcol[0]].mean()+collar[xyzcol[0]].std()))
+        (collar[xcol] > (
+            collar[ycol].mean()-collar[ycol].std())) &
+        (collar[xcol] < (
+            collar[ycol].mean()+collar[ycol].std())) &
+        (collar[ycol] > (
+            collar[xcol].mean()-collar[xcol].std())) &
+        (collar[ycol] < (
+            collar[xcol].mean()+collar[xcol].std()))
         ]
 
     write_warning(f'\nValidation 5 - There are {len(cond_5)} '

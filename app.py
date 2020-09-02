@@ -1,5 +1,6 @@
 import base64
 from io import StringIO
+import pandas as pd
 
 import streamlit as st
 from handlers.dbcheck import validCollar
@@ -25,12 +26,15 @@ def main():
     collar = st.sidebar.file_uploader(label="Collar",
                                       encoding='utf-8',
                                       type=["csv"])
-
+    
+    dfcollar = pd.read_csv(StringIO(collar.read()))
+    bhid = st.selectbox('Select BHID column:',dfcollar.columns)
+    xcol = st.selectbox('Select X column:',dfcollar.columns)
+    ycol = st.selectbox('Select Y column:',dfcollar.columns)
+    zcol = st.selectbox('Select Z column:',dfcollar.columns)
     if st.sidebar.button('Process'):
         if collar:
-            bhid = 'BHID'
-            xyzcol = ['XCOLLAR', 'YCOLLAR', 'ZCOLLAR']
-            df_csv = validCollar(bhid, xyzcol, StringIO(collar.read()))
+            df_csv = validCollar(bhid,xcol,ycol,zcol,StringIO(collar.read()))
             st.markdown(get_csv_download_link(df_csv, 'error_collar'),
                         unsafe_allow_html=True)
 
