@@ -26,17 +26,17 @@ def main():
     collar = st.sidebar.file_uploader(label="Collar",
                                       encoding='utf-8',
                                       type=["csv"])
-    
-    dfcollar = pd.read_csv(StringIO(collar.read()))
-    bhid = st.selectbox('Select BHID column:',dfcollar.columns)
-    xcol = st.selectbox('Select X column:',dfcollar.columns)
-    ycol = st.selectbox('Select Y column:',dfcollar.columns)
-    zcol = st.selectbox('Select Z column:',dfcollar.columns)
-    if st.sidebar.button('Process'):
-        if collar:
-            df_csv = validCollar(bhid,xcol,ycol,zcol,StringIO(collar.read()))
-            st.markdown(get_csv_download_link(df_csv, 'error_collar'),
-                        unsafe_allow_html=True)
+    if collar:
+        dfcollar = pd.read_csv(StringIO(collar.read()))
+        bhid = st.selectbox('Select BHID column:',dfcollar.columns)
+        xcol = st.selectbox('Select X column:',dfcollar.columns)
+        ycol = st.selectbox('Select Y column:',dfcollar.columns)
+        zcol = st.selectbox('Select Z column:',dfcollar.columns)
+        if st.sidebar.button('Process'):
+            if collar:
+                df_csv = validCollar(bhid,xcol,ycol,zcol,StringIO(collar.read()))
+                st.markdown(get_csv_download_link(df_csv, 'error_collar'),
+                            unsafe_allow_html=True)
 
 
 def get_csv_download_link(dataframe, filename):
