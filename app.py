@@ -52,5 +52,6 @@ def get_csv_download_link(dataframe, filename):
             f'<a href="data:application/octet-stream;base64,{b64.decode()}" '
             f'download="{filename}.csv">Download CSV file</a></p>')
 
+
 if __name__ == '__main__':
     main()
