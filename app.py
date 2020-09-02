@@ -27,15 +27,18 @@ def main():
                                       encoding='utf-8',
                                       type=["csv"])
     if collar:
-        dfcollar = pd.read_csv(StringIO(collar.read()))
-        bhid = st.selectbox('Select BHID column:', dfcollar.columns)
-        xcol = st.selectbox('Select X column:', dfcollar.columns)
-        ycol = st.selectbox('Select Y column:', dfcollar.columns)
-        zcol = st.selectbox('Select Z column:', dfcollar.columns)
+        df_collar = pd.read_csv(StringIO(collar.read()))
+        bhid = st.selectbox('Select BHID column:', df_collar.columns)
+        xcol = st.selectbox('Select X column:', df_collar.columns)
+        ycol = st.selectbox('Select Y column:', df_collar.columns)
+        zcol = st.selectbox('Select Z column:', df_collar.columns)
         if st.sidebar.button('Process'):
             if collar:
-                df_csv = validCollar(bhid, xcol, ycol, zcol,
-                                     StringIO(collar.read()))
+                df_csv = validCollar(bhid=bhid,
+                                     xcol=xcol,
+                                     ycol=ycol,
+                                     zcol=zcol,
+                                     dataframe=df_collar)
                 st.markdown(get_csv_download_link(df_csv, 'error_collar'),
                             unsafe_allow_html=True)
 

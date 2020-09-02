@@ -446,13 +446,13 @@ def validSurvey(bhid, at, brg, dip, filen, encoding="ISO-8859-1"):
     print('############################################################\n')
 
 
-def validCollar(bhid, xcol, ycol, zcol, filen, encoding="ISO-8859-1"):
+def validCollar(bhid, xcol, ycol, zcol, dataframe, encoding="ISO-8859-1"):
 
     print('\n############################################################')
 
     write_warning('Starting Collar Validation')
     # Collar Import
-    ncollar = pd.read_csv(filen, encoding=encoding)
+    ncollar = dataframe
     collar = pd.DataFrame()
     cols = [bhid, xcol, ycol, zcol]
     collar = ncollar[cols]
