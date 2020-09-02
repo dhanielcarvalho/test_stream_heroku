@@ -6,6 +6,7 @@ from handlers.dbcheck import validCollar
 
 st.set_option('deprecation.showfileUploaderEncoding', False)
 
+
 def main():
     """
     function responsable for run streamlit app
@@ -27,8 +28,6 @@ def main():
 
     if st.sidebar.button('Process'):
         if collar:
-            # df_collar = pd.read_csv(StringIO(collar.read()))
-            # st.dataframe(df_collar)
             bhid = 'BHID'
             xyzcol = ['XCOLLAR', 'YCOLLAR', 'ZCOLLAR']
             df_csv = validCollar(bhid, xyzcol, StringIO(collar.read()))

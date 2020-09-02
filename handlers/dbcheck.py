@@ -2,7 +2,8 @@ import numpy as np
 import pandas as pd
 import warnings
 
-from handlers.log import Logger
+from .log import Logger
+from .messages import write_warning
 
 pd.set_option('display.max_rows', 20)
 warnings.filterwarnings("ignore")
@@ -448,7 +449,8 @@ def validSurvey(bhid, at, brg, dip, filen, encoding="ISO-8859-1"):
 def validCollar(bhid, xyzcol, filen, encoding="ISO-8859-1"):
 
     print('\n############################################################')
-    print('Starting Collar Validation')
+
+    write_warning('Starting Collar Validation')
     # Collar Import
     ncollar = pd.read_csv(filen, encoding=encoding)
     collar = pd.DataFrame()
@@ -460,8 +462,8 @@ def validCollar(bhid, xyzcol, filen, encoding="ISO-8859-1"):
 
     cond_1 = collar[(collar[xyzcol[0]] == 0) | (
         collar[xyzcol[1]] == 0) | (collar[xyzcol[2]] == 0)]
-    print('\nValidation 1 - There are', len(cond_1),
-          'ZERO value on Collar coordinates')
+    write_warning(f'\nValidation 1 - There are {len(cond_1)}, '
+                  'ZERO value on Collar coordinates')
     if (len(cond_1) > 0):
         errordf = errordf.append(
             collar.loc[cond_1.index.values], ignore_index=True)
@@ -469,8 +471,8 @@ def validCollar(bhid, xyzcol, filen, encoding="ISO-8859-1"):
 
     cond_2 = collar[(collar[xyzcol[0]] % 1 == 0) | (
         collar[xyzcol[1]] % 1 == 0) | (collar[xyzcol[2]] % 1 == 0)]
-    print('\nValidation 2 - There are',
-          len(cond_2), 'rounded collar coordinates')
+    write_warning(f'\nValidation 2 - There are {len(cond_2)} '
+                  'rounded collar coordinates')
     if (len(cond_2) > 0):
         errordf = errordf.append(
             collar.loc[cond_2.index.values], ignore_index=True)
@@ -479,7 +481,8 @@ def validCollar(bhid, xyzcol, filen, encoding="ISO-8859-1"):
     cols = [bhid]
     cond_3 = ncollar[cols]
     cond_3 = cond_3[cond_3.duplicated()]
-    print('\nValidation 3 - There are', len(cond_3), 'duplicated Hole ID')
+    write_warning(f'\nValidation 3 - There are {len(cond_3)} '
+                  'duplicated Hole ID')
 
     if (len(cond_3) > 0):
         errordf = errordf.append(
@@ -489,7 +492,8 @@ def validCollar(bhid, xyzcol, filen, encoding="ISO-8859-1"):
     cols = [xyzcol[0], xyzcol[1], xyzcol[2]]
     cond_4 = ncollar[cols]
     cond_4 = cond_4[(cond_4.duplicated())]
-    print('\nValidation 4 - There are', len(cond_4), 'duplicate coordinates')
+    write_warning(f'\nValidation 4 - There are {len(cond_4)} '
+                  'duplicate coordinates')
 
     if (len(cond_4) > 0):
         errordf = errordf.append(
@@ -507,16 +511,14 @@ def validCollar(bhid, xyzcol, filen, encoding="ISO-8859-1"):
             collar[xyzcol[0]].mean()+collar[xyzcol[0]].std()))
         ]
 
-    print('\nValidation 5 - There are', len(cond_5), 'inverted X and Y')
+    write_warning(f'\nValidation 5 - There are {len(cond_5)} '
+                  'inverted X and Y')
     if (len(cond_5) > 0):
         errordf = errordf.append(
             collar.loc[cond_5.index.values], ignore_index=True)
         error_l = np.append(error_l, len(cond_5)*['Inverted X and Y'])
 
     errordf['TYPE'] = error_l
-    # errordf.to_csv('error_collar.csv', index=False)
-    # print('\nErrors exported to "error_collar.csv"')
-    # print('############################################################\n')
     return errordf
 
 
