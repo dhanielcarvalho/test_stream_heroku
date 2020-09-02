@@ -28,13 +28,14 @@ def main():
                                       type=["csv"])
     if collar:
         dfcollar = pd.read_csv(StringIO(collar.read()))
-        bhid = st.selectbox('Select BHID column:',dfcollar.columns)
-        xcol = st.selectbox('Select X column:',dfcollar.columns)
-        ycol = st.selectbox('Select Y column:',dfcollar.columns)
-        zcol = st.selectbox('Select Z column:',dfcollar.columns)
+        bhid = st.selectbox('Select BHID column:', dfcollar.columns)
+        xcol = st.selectbox('Select X column:', dfcollar.columns)
+        ycol = st.selectbox('Select Y column:', dfcollar.columns)
+        zcol = st.selectbox('Select Z column:', dfcollar.columns)
         if st.sidebar.button('Process'):
             if collar:
-                df_csv = validCollar(bhid,xcol,ycol,zcol,StringIO(collar.read()))
+                df_csv = validCollar(bhid, xcol, ycol, zcol,
+                                     StringIO(collar.read()))
                 st.markdown(get_csv_download_link(df_csv, 'error_collar'),
                             unsafe_allow_html=True)
 
