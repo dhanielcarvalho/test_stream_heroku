@@ -514,9 +514,10 @@ def validCollar(bhid, xyzcol, filen, encoding="ISO-8859-1"):
         error_l = np.append(error_l, len(cond_5)*['Inverted X and Y'])
 
     errordf['TYPE'] = error_l
-    errordf.to_csv('error_collar.csv', index=False)
-    print('\nErrors exported to "error_collar.csv"')
-    print('############################################################\n')
+    # errordf.to_csv('error_collar.csv', index=False)
+    # print('\nErrors exported to "error_collar.csv"')
+    # print('############################################################\n')
+    return errordf
 
 
 def validAssay(bhid, from_i, to_i, fields, filen, encoding="ISO-8859-1"):
