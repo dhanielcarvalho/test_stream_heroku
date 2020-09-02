@@ -446,7 +446,7 @@ def validSurvey(bhid, at, brg, dip, filen, encoding="ISO-8859-1"):
     print('############################################################\n')
 
 
-def validCollar(bhid, xcol, ycol, zcol, dataframe, encoding="ISO-8859-1"):
+def validCollar(bhid, xcol, ycol, zcol, dataframe):
 
     print('\n############################################################')
 
