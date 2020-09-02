@@ -4,6 +4,7 @@ from io import StringIO
 import streamlit as st
 from handlers.dbcheck import validCollar
 
+st.set_option('deprecation.showfileUploaderEncoding', False)
 
 def main():
     """
