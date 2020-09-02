@@ -42,6 +42,7 @@ def main():
 def get_csv_download_link(dataframe, filename):
     """
     Function that creates a link to download file
+
     Arguments:
         csv {não sei ainda} -- output from function with errors
     Returns:
@@ -54,6 +55,7 @@ def get_csv_download_link(dataframe, filename):
     return ('<p style="text-align:center;">'
             f'<a href="data:application/octet-stream;base64,{b64.decode()}" '
             f'download="{filename}.csv">Download CSV file</a></p>')
+
 
 if __name__ == '__main__':
     main()
